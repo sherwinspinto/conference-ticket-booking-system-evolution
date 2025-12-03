@@ -17,6 +17,9 @@ public class TicketService {
   public String reserveTicket(Long talkId, String userEmail) {
     // "Bad" logic: No atomicity, just count and hope
     List<Ticket> reserved = ticketRepository.findByTalkIdAndStatus(talkId, "RESERVED");
+    if (reserved == null) {
+      reserved = List.of(); // Empty List fallback
+    }
     if (reserved.size() >= 100) { // Magic number smell!
       return "Sold out";
     }
