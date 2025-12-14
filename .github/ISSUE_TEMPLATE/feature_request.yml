@@ -1,0 +1,71 @@
+name: Feature / User Story
+description: Propose or detail a new feature using the classic user story format
+title: "[FEATURE] <short descriptive title>"
+labels: ["feature", "needs-refinement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for contributing! Please fill out this template to help us understand and prioritize the work.
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Write in the classic "As a / I want / So that" format. Be specific about the role and value.
+      placeholder: |
+        As a [type of user],
+        I want [an action or feature],
+        so that [benefit or value].
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Background / Motivation
+      description: Why is this needed? Link to related issues, discussions, or real-world problems (e.g., overselling in Phase 1).
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria (AC)
+      description: |
+        List verifiable conditions. Use Gherkin-style (Given/When/Then) where possible.
+        Think about happy path, edge cases, performance, invariants, error handling.
+      placeholder: |
+        - Given [context], When [action], Then [outcome]
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes / Implementation Ideas
+      description: |
+        Optional but encouraged: Domain considerations, potential events, services impacted, database changes, concurrency concerns.
+        Reference DDD patterns we're using.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: considerations
+    attributes:
+      label: Key Considerations (check all that apply or add notes)
+      options:
+        - label: Concurrency / Race conditions
+        - label: Performance under load (e.g., 1000+ concurrent bookings)
+        - label: Domain invariants (e.g., exactly 100 tickets total)
+        - label: Error handling / Rollback
+        - label: Logging / Monitoring
+        - label: Tests needed (unit/integration/load)
+
+  - type: textarea
+    id: related-issues
+    attributes:
+      label: Related Issues / Epics
+      description: Link to parent epic or dependent issues.
