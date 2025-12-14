@@ -66,7 +66,7 @@ public class TalkEntity {
     return name;
   }
 
-  public static TalkEntity create(String name, int totalSeats) {
+  public static TalkEntity createWithNameAndTotalSeats(String name, int totalSeats) {
     return new TalkEntity(name, totalSeats);
   }
 }

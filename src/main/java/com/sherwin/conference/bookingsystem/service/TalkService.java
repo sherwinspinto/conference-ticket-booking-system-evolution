@@ -26,7 +26,7 @@ public class TalkService {
     if (totalSeats < 1)
       throw new IllegalArgumentException("Total Seats must be greater than 0");
 
-    TalkEntity talk = TalkEntity.create(name, totalSeats);
+    TalkEntity talk = TalkEntity.createWithNameAndTotalSeats(name, totalSeats);
     TalkEntity talkEntity = talkRepository.save(talk);
     return Mapper.talkEntityToDomainMapper(talkEntity);
   }
