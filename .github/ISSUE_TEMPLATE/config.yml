@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions / Discussion
+    url: https://github.com/sherwinspinto/conference-ticket-booking-system-evolution/discussions
+    about: Please use Discussions for questions instead of issues.
+
