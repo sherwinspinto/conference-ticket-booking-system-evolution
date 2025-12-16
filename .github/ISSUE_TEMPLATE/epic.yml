@@ -1,0 +1,56 @@
+name: Epic
+description: A large body of work that spans multiple user stories / tasks
+title: "[EPIC] <High-level goal or theme>"
+labels: ["epic", "p1-high"] # We'll create an 'epic' label (purple color)
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for large features or themes (e.g., "Precise Seat Expiry Handling").
+        Break into child stories/tasks and link them below.
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Epic Goal / Business Value
+      description: High-level "As a / I want / So that" or plain description of the overall outcome.
+      placeholder: |
+        As conference organizers and attendees,
+        we need accurate seat expiry without polling,
+        so that inventory is maximized and no phantom holds occur.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope / Overview
+      description: What is in/out of scope? Key deliverables? Risks?
+    validations:
+      required: true
+
+  - type: textarea
+    id: child-issues
+    attributes:
+      label: Child Issues (Stories / Tasks)
+      description: |
+        List planned or existing child issues using GitHub task lists.
+        Example:
+        - [ ] CONF-101: Publish domain events (#link)
+        - [ ] CONF-102: Handle SeatsReserved event for expiry
+      value: |
+        ### Planned Child Issues
+        - [ ]
+        - [ ]
+
+        ### Completed Child Issues
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies / Risks
+      description: Blocking issues, technical risks, open questions.
+
