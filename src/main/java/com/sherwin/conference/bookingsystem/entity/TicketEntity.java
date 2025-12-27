@@ -14,7 +14,7 @@ public class TicketEntity {
   private String userEmail;
   private ReservationResult status; // "RESERVED", "PAID", "EXPIRED"
   private LocalDateTime reservedAt;
-  private LocalDateTime expiresAt;
+
 
   // Constructors, getters, setters – the anemic anti-pattern we'll eviscerate
   public TicketEntity() {}
@@ -23,13 +23,11 @@ public class TicketEntity {
       Long talkId,
       String userEmail,
       ReservationResult status,
-      LocalDateTime reservedAt,
-      LocalDateTime expiresAt) {
+      LocalDateTime reservedAt) {
     this.talkId = talkId;
     this.userEmail = userEmail;
     this.status = status;
     this.reservedAt = reservedAt;
-    this.expiresAt = expiresAt;
   }
 
   public Long getId() {
@@ -70,13 +68,5 @@ public class TicketEntity {
 
   public void setReservedAt(LocalDateTime reservedAt) {
     this.reservedAt = reservedAt;
-  }
-
-  public LocalDateTime getExpiresAt() {
-    return expiresAt;
-  }
-
-  public void setExpiresAt(LocalDateTime expiresAt) {
-    this.expiresAt = expiresAt;
   }
 }

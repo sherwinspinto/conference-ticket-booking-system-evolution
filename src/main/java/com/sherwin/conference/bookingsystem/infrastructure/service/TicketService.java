@@ -29,9 +29,4 @@ public class TicketService {
   public String confirmPayment(Long ticketId) {
     return ticketDomainService.confirmPayment(ticketId);
   }
-
-  @Transactional
-  public void expireOldReservations() {
-    ticketDomainService.expireOldReservations();
-  }
 }

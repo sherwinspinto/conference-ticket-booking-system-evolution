@@ -7,5 +7,4 @@ public record Ticket(
     Long talkId,
     String userEmail,
     ReservationResult status,
-    LocalDateTime reservedAt,
-    LocalDateTime expiresAt) {}
+    LocalDateTime reservedAt) {}
