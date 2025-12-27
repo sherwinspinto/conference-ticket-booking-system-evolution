@@ -12,8 +12,7 @@ public class Mapper {
         ticket.talkId(),
         ticket.userEmail(),
         reservationResultDomainToEntityMapper(ticket.status()),
-        ticket.reservedAt(),
-        ticket.expiresAt());
+        ticket.reservedAt());
   }
 
   public static Ticket ticketEntityToTicketDomainMapper(TicketEntity ticketEntity) {
@@ -22,8 +21,7 @@ public class Mapper {
         ticketEntity.getTalkId(),
         ticketEntity.getUserEmail(),
         reservationResultEntityToDomainMapper(ticketEntity.getStatus()),
-        ticketEntity.getReservedAt(),
-        ticketEntity.getExpiresAt());
+        ticketEntity.getReservedAt());
   }
 
   public static ReservationResult reservationResultDomainToEntityMapper(

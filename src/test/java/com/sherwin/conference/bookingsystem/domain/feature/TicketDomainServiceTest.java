@@ -39,7 +39,6 @@ class TicketDomainServiceTest {
                 0L,
                 email,
                 new ReservationResult.Reserved(),
-                LocalDateTime.now(),
                 LocalDateTime.now()));
     ticketService.reserveTicket(talkId, email);
     Mockito.verify(domainEventHandler).handleEvent(Mockito.any());

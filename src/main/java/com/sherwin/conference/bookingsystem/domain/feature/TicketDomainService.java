@@ -7,10 +7,8 @@ import com.sherwin.conference.bookingsystem.domain.Ticket;
 import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
 import com.sherwin.conference.bookingsystem.domain.spi.ConfirmPaymentAction;
 import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
-import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
 import com.sherwin.conference.bookingsystem.domain.spi.ReserveTicketAction;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @DomainService
 public class TicketDomainService {
@@ -18,18 +16,14 @@ public class TicketDomainService {
 
   private final ConfirmPaymentAction confirmPaymentAction;
 
-  private final ExpireOldReservationsAction expireOldReservationsAction;
-
   private final EventPublisher eventPublisher;
 
   public TicketDomainService(
       ReserveTicketAction reserveTicketAction,
       ConfirmPaymentAction confirmPaymentAction,
-      ExpireOldReservationsAction expireOldReservationsAction,
       EventPublisher eventPublisher) {
     this.reserveTicketAction = reserveTicketAction;
     this.confirmPaymentAction = confirmPaymentAction;
-    this.expireOldReservationsAction = expireOldReservationsAction;
     this.eventPublisher = eventPublisher;
   }
 
@@ -55,15 +49,14 @@ public class TicketDomainService {
             talkId,
             userEmail,
             new ReservationResult.Reserved(),
-            LocalDateTime.now(),
-            LocalDateTime.now().plusMinutes(10));
+            LocalDateTime.now());
 
     Ticket savedTicket = reserveTicketAction.saveTicket(ticket);
 
     eventPublisher.publish(
         new ConferenceApplicationEvent.SeatReserved(savedTicket.id(), savedTicket.reservedAt()),
         Boolean.TRUE);
-    return "Reserved! Expires at " + savedTicket.expiresAt();
+    return "Reserved!";
   }
 
   public String confirmPayment(Long ticketId) {
@@ -76,28 +69,6 @@ public class TicketDomainService {
     } else return "Already expired or invalid";
   }
 
-  public void expireOldReservations() {
-    // Placeholder for scheduler – scans and updates expired ones
-    // This will be inefficient and miss races
-    List<Ticket> reserved =
-        expireOldReservationsAction.findByTalkIdAndStatus(
-            1L, new ReservationResult.Reserved()); // Hardcoded talkId
-    LocalDateTime now = LocalDateTime.now();
-    for (Ticket ticket : reserved) {
-      if (ticket.expiresAt().isBefore(now)) {
-        Ticket ticketToSave =
-            new Ticket(
-                ticket.id(),
-                ticket.talkId(),
-                ticket.userEmail(),
-                new ReservationResult.Expired(),
-                ticket.reservedAt(),
-                ticket.expiresAt());
-        expireOldReservationsAction.saveTicket(ticketToSave);
-      }
-    }
-  }
-
   private String confirmPayment(Ticket ticket) {
     Ticket ticketToSave =
         new Ticket(
@@ -105,8 +76,7 @@ public class TicketDomainService {
             ticket.talkId(),
             ticket.userEmail(),
             new ReservationResult.Paid(),
-            ticket.reservedAt(),
-            ticket.expiresAt());
+            ticket.reservedAt());
     confirmPaymentAction.saveTicket(ticket);
     return "Confirmed";
   }
