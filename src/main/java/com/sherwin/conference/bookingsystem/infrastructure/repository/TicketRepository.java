@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.repository;
+package com.sherwin.conference.bookingsystem.infrastructure.repository;
 
 import com.sherwin.conference.bookingsystem.entity.TicketEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
