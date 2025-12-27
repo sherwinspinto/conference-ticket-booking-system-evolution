@@ -55,6 +55,12 @@ public class Mapper {
       talkEntity.getId(),
       talkEntity.getName(),
       talkEntity.getTotalSeats(),
-      talkEntity.getReservedSeats());
+      talkEntity.getReservedSeats(),
+      talkEntity.getVersion());
+  }
+
+  public static TalkEntity talkDomainToEntityMapper(Talk talk) {
+    return new TalkEntity(
+        talk.id(), talk.name(), talk.totalSeats(), talk.reservedSeats(), talk.version());
   }
 }

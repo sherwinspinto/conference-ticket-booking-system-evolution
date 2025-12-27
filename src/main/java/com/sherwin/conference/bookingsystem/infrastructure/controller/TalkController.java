@@ -1,7 +1,7 @@
-package com.sherwin.conference.bookingsystem.controller;
+package com.sherwin.conference.bookingsystem.infrastructure.controller;
 
 import com.sherwin.conference.bookingsystem.domain.Talk;
-import com.sherwin.conference.bookingsystem.service.TalkService;
+import com.sherwin.conference.bookingsystem.infrastructure.service.TalkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
