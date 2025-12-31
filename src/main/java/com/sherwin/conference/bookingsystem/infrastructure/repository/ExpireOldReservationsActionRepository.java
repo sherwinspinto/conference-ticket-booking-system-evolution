@@ -4,11 +4,10 @@ import com.sherwin.conference.bookingsystem.domain.ReservationResult;
 import com.sherwin.conference.bookingsystem.domain.Ticket;
 import com.sherwin.conference.bookingsystem.domain.mapper.Mapper;
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
-import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ExpireOldReservationsActionRepository implements ExpireOldReservationsAction {
@@ -32,5 +31,11 @@ public class ExpireOldReservationsActionRepository implements ExpireOldReservati
   public Ticket saveTicket(Ticket ticket) {
     return Mapper.ticketEntityToTicketDomainMapper(
         ticketRepository.save(Mapper.ticketDomainToEntityMapper(ticket)));
+  }
+
+  @Override
+  public int updateTicketStatusToExpired(Long ticketId) {
+    return ticketRepository.updateStatus(
+            new com.sherwin.conference.bookingsystem.entity.ReservationResult.Expired().toString(), ticketId);
   }
 }

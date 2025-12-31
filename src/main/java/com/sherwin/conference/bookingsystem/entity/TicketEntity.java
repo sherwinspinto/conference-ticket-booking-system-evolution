@@ -15,15 +15,11 @@ public class TicketEntity {
   private ReservationResult status; // "RESERVED", "PAID", "EXPIRED"
   private LocalDateTime reservedAt;
 
-
   // Constructors, getters, setters – the anemic anti-pattern we'll eviscerate
   public TicketEntity() {}
 
   public TicketEntity(
-      Long talkId,
-      String userEmail,
-      ReservationResult status,
-      LocalDateTime reservedAt) {
+      Long talkId, String userEmail, ReservationResult status, LocalDateTime reservedAt) {
     this.talkId = talkId;
     this.userEmail = userEmail;
     this.status = status;
