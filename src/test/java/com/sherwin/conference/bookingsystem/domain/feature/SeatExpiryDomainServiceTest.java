@@ -7,6 +7,7 @@ import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEv
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
-public class SeatExpiryServiceTest {
+public class SeatExpiryDomainServiceTest {
 
   @MockitoBean private ExpireOldReservationsAction expireOldReservationsAction;
 
@@ -28,7 +29,7 @@ public class SeatExpiryServiceTest {
   @MockitoBean(name = "virtualExecutor")
   private ExecutorService virtualThreadExecutorService;
 
-  @Autowired private SeatExpiryService seatExpiryService;
+  @Autowired private SeatExpiryDomainService seatExpiryDomainService;
 
   @Test
   void testScheduleSeatExpiry() throws Exception {
@@ -37,9 +38,9 @@ public class SeatExpiryServiceTest {
     SeatReserved seatReserved = new SeatReserved(ticketId, reservedAt);
 
     ArgumentCaptor<Runnable> virtualThreadJobCaptor = ArgumentCaptor.forClass(Runnable.class);
-    ArgumentCaptor<Runnable> virtualThreadCallable = ArgumentCaptor.forClass(Runnable.class);
+    ArgumentCaptor<Callable<Long>> virtualThreadCallable = ArgumentCaptor.forClass(Callable.class);
 
-    seatExpiryService.expireSeat(seatReserved);
+    seatExpiryDomainService.expireSeat(seatReserved);
 
     verify(executorService).schedule(virtualThreadJobCaptor.capture(), anyLong(), any());
 
@@ -47,7 +48,7 @@ public class SeatExpiryServiceTest {
 
     verify(virtualThreadExecutorService).submit(virtualThreadCallable.capture());
 
-    virtualThreadCallable.getValue().run();
+    virtualThreadCallable.getValue().call();
 
     verify(expireOldReservationsAction).updateTicketStatusToExpired(any());
   }
@@ -64,7 +65,7 @@ public class SeatExpiryServiceTest {
 
     Assertions.assertEquals(
         598_000,
-        seatExpiryService.calculateDelayForSeatExpiryScheduledJobInMillis(
+        seatExpiryDomainService.calculateDelayForSeatExpiryScheduledJobInMillis(
             reservedAt, expireAfterDuration, schedulerNowTime));
   }
 }
