@@ -1,6 +1,6 @@
-package com.sherwin.conference.bookingsystem.infrastructure.controller;
+package com.sherwin.conference.bookingsystem.controller;
 
-import com.sherwin.conference.bookingsystem.infrastructure.service.TicketService;
+import com.sherwin.conference.bookingsystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
 package com.sherwin.conference.bookingsystem;
 
-import com.sherwin.conference.bookingsystem.infrastructure.controller.TalkController;
+import com.sherwin.conference.bookingsystem.controller.TalkController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
