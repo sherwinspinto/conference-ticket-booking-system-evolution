@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.9</version>     <!-- ← 3.3.8 is the latest stable 3.3.x as of Nov 2025 -->
+    <version>3.3.8</version>     <!-- ← 3.3.8 is the latest stable 3.3.x as of Nov 2025 -->
     <relativePath/>
   </parent>
 
@@ -18,8 +18,8 @@
   <description>From monolith pain → rich domain → reactive mastery</description>
 
   <properties>
-      <java.version>25</java.version>
-      <maven.compiler.release>25</maven.compiler.release>
+      <java.version>21</java.version>
+      <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
   <dependencies>

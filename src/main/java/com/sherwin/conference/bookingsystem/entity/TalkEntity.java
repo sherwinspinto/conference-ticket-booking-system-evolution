@@ -1,5 +1,6 @@
 package com.sherwin.conference.bookingsystem.entity;
 
+import com.sherwin.conference.bookingsystem.domain.Talk;
 import jakarta.persistence.*;
 
 // Talk.java – must be the single source of truth for available seats
@@ -37,14 +38,6 @@ public class TalkEntity {
 
   @Version private Long version;
 
-  public TalkEntity(Long id, String name, int totalSeats, int reservedSeats, Long version) {
-    this.id = id;
-    this.name = name;
-    this.totalSeats = totalSeats;
-    this.reservedSeats = reservedSeats;
-    this.version = version;
-  }
-
   public boolean tryReserveSeat() {
     if (reservedSeats >= totalSeats) return Boolean.FALSE;
     reservedSeats++;
@@ -71,10 +64,6 @@ public class TalkEntity {
 
   public String getName() {
     return name;
-  }
-
-  public Long getVersion() {
-    return version;
   }
 
   public static TalkEntity createWithNameAndTotalSeats(String name, int totalSeats) {
