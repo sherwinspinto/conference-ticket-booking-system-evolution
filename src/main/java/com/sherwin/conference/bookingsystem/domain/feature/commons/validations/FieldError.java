@@ -1,12 +1,37 @@
 package com.sherwin.conference.bookingsystem.domain.feature.commons.validations;
 
-import java.time.temporal.ChronoUnit;
-
 public sealed interface FieldError {
-  record EmptyString(String fieldName) implements FieldError {}
-  record NullObject(String fieldName) implements FieldError {}
-  record IntegerOutOfRange(String fieldName, int min, int max) implements FieldError {}
-  record DurationOutOfRange<T>(String fieldName, T actual, T expected, String unit) implements FieldError {}
-  record InvalidParameter2<T>(String fieldName1, String fieldName2, T field1Value, T Field2Value ) implements FieldError {}
-  record GeneralInvalid(String fieldName) implements FieldError {}
+  sealed interface Errors extends FieldError {
+
+    record NullObjectError(ErrorParams.FieldName fieldName) implements Errors {}
+
+    record EmptyStringError(ErrorParams.FieldName fieldName) implements Errors {}
+
+    record OutOfRangeError<T>(
+        ErrorParams.FieldName fieldName,
+        ErrorParams.FieldValue<T> fieldValue,
+        ErrorParams.Param<T> minParam,
+        ErrorParams.Param<T> maxParam)
+        implements Errors {}
+  }
+
+  sealed interface ErrorParams extends FieldError {
+    record FieldName(String name) implements ErrorParams {
+      public static FieldName of(String fieldName) {
+        return new FieldName(fieldName);
+      }
+    }
+
+    record FieldValue<T>(T value) implements ErrorParams {
+      public static <T> FieldValue<T> of(T input) {
+        return new FieldValue<>(input);
+      }
+    }
+
+    record Param<T>(T value) implements ErrorParams {
+      public static <T> Param<T> of(T input) {
+        return new Param<>(input);
+      }
+    }
+  }
 }

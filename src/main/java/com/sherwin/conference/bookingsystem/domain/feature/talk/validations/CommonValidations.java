@@ -1,13 +1,13 @@
 package com.sherwin.conference.bookingsystem.domain.feature.talk.validations;
 
 import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError;
-import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.ValidationResult;
-import com.sherwin.conference.bookingsystem.domain.feature.talk.model.TalkTime;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.FieldName;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.FieldValue;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.Param;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.Errors.EmptyStringError;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.Errors.NullObjectError;
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.Errors.OutOfRangeError;
+import java.util.Optional;
 
 public class CommonValidations {
   public static boolean isNotBlank(String test) {
@@ -18,46 +18,21 @@ public class CommonValidations {
     return !isNotBlank(test);
   }
 
-  public static <T extends Comparable<T>> ValidationResult<T> validateOutOfRange(String fieldName, T input, T min, T max) {
-    if (input.compareTo(min) < 0  ||  input.compareTo(max) > 0 )
-      return ValidationResult.invalidField(new FieldError.IntegerOutOfRange("talk.seat_count", 0, 200));
-    return ValidationResult.validField(input);
+  public static <T extends Comparable<T>> Optional<FieldError> validateOutOfRange(
+    FieldName fieldName, FieldValue<T> fieldValue, Param<T> min, Param<T> max) {
+    if (fieldValue.value().compareTo(min.value()) < 0 || fieldValue.value().compareTo(max.value()) > 0)
+      return Optional.of(new OutOfRangeError<>(fieldName, fieldValue, min, max));
+    return Optional.empty();
   }
 
-  public static ValidationResult<String> validateEmptyString(String fieldName, String input) {
-    if (isBlank(input))
-      return ValidationResult.invalidField(new FieldError.EmptyString(fieldName));
-    return ValidationResult.validField(input);
+  public static Optional<FieldError> validateEmptyString(FieldName fieldName, FieldValue<String> fieldValue) {
+    if (isBlank(fieldValue.value()))
+      return Optional.of(new EmptyStringError(fieldName));
+    return Optional.empty();
   }
 
-  public static <T> ValidationResult<T> validateNullObject(String fieldName, T input) {
-    if (input == null)
-      ValidationResult.invalidField(new FieldError.NullObject(fieldName));
-    return ValidationResult.validField(input);
-  }
-
-  public static ValidationResult<TalkTime> validateTalkTimeDuration(
-      TalkTime talkTime, Duration maxDurationInMin) {
-    LocalDateTime talkStartTime = talkTime.startTime();
-    LocalDateTime talkEndTime = talkTime.endTime();
-    Duration talkDuration = Duration.between(talkStartTime, talkEndTime);
-    return switch (talkDuration) {
-      case Duration duration when duration.isNegative() ->
-          ValidationResult.invalidField(
-              new FieldError.InvalidParameter2<LocalDateTime>(
-                  "talk.talk_time.start_time",
-                  "talk.talk_time.end_time",
-                  talkStartTime,
-                  talkEndTime));
-      case Duration duration when duration.compareTo(maxDurationInMin) > 0 ->
-          ValidationResult.invalidField(
-              new FieldError.DurationOutOfRange<Long>(
-                  "talk.talk_time",
-                  duration.toMinutes(),
-                  maxDurationInMin.toMinutes(),
-                  ChronoUnit.MINUTES.name()));
-
-      default -> ValidationResult.validField(talkTime);
-    };
+  public static <T> Optional<FieldError> validateNullObject(FieldName fieldName, FieldValue<T> fieldValue) {
+    if (fieldValue.value() == null) return Optional.of(new NullObjectError(fieldName));
+    return Optional.empty();
   }
 }

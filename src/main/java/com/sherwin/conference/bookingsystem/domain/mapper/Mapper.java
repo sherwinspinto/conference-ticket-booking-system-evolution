@@ -3,7 +3,7 @@ package com.sherwin.conference.bookingsystem.domain.mapper;
 import com.sherwin.conference.bookingsystem.domain.Talk;
 import com.sherwin.conference.bookingsystem.domain.Ticket;
 import com.sherwin.conference.bookingsystem.entity.ReservationResult;
-import com.sherwin.conference.bookingsystem.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
 import com.sherwin.conference.bookingsystem.entity.TicketEntity;
 
 public class Mapper {

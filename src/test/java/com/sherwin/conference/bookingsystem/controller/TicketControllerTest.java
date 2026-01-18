@@ -1,6 +1,6 @@
 package com.sherwin.conference.bookingsystem.controller;
 
-import com.sherwin.conference.bookingsystem.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
 import com.sherwin.conference.bookingsystem.entity.TicketEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.repository.TalkRepository;
 import com.sherwin.conference.bookingsystem.infrastructure.repository.TicketRepository;
