@@ -1,0 +1,18 @@
+package com.sherwin.conference.bookingsystem.infrastructure.db.respository;
+
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface TalkRepository2 extends JpaRepository<TalkEntity, Long> {
+  String INCREMENT_RESERVED_SEAT_COUNT_SQL = """
+UPDATE TALKS
+  SET reserved_seat_count = reserved_seat_count + 1
+ WHERE
+  id = :talkId
+ AND reserved_seat_count < total_seats
+""";
+
+  @Query(value = INCREMENT_RESERVED_SEAT_COUNT_SQL, nativeQuery = true)
+  int incrementReservedSeatCount(Long talkId);
+}

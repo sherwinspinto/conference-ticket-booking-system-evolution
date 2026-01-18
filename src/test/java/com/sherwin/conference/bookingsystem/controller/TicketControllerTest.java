@@ -1,6 +1,6 @@
 package com.sherwin.conference.bookingsystem.controller;
 
-import com.sherwin.conference.bookingsystem.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
 import com.sherwin.conference.bookingsystem.entity.TicketEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.repository.TalkRepository;
 import com.sherwin.conference.bookingsystem.infrastructure.repository.TicketRepository;
@@ -39,7 +39,7 @@ class TicketControllerTest {
   void test100TicketsIntegration() throws Exception {
     ResponseEntity<String> talkResponseEntity =
         testRestTemplate.postForEntity(
-            URI.create(TalkControllerTest.createCreateTalkURL(localServerPort, "talk1", 100)),
+            URI.create(CreateTalkControllerTest.createCreateTalkURL(localServerPort, "talk1", 100)),
             null,
             String.class);
     assertEquals(HttpStatus.OK, talkResponseEntity.getStatusCode());
@@ -64,7 +64,7 @@ class TicketControllerTest {
     String talkName = "talk2";
     ResponseEntity<String> talkResponseEntity =
       testRestTemplate.postForEntity(
-        URI.create(TalkControllerTest.createCreateTalkURL(localServerPort, talkName, 100)),
+        URI.create(CreateTalkControllerTest.createCreateTalkURL(localServerPort, talkName, 100)),
         null,
         String.class);
     assertEquals(HttpStatus.OK, talkResponseEntity.getStatusCode());
@@ -90,7 +90,7 @@ class TicketControllerTest {
 
   public static String createTicketAPIURL(int port) {
     return new StringBuilder()
-        .append(TalkControllerTest.createBaseURL(port))
+        .append(CreateTalkControllerTest.createBaseURL(port))
         .append("/")
         .append("tickets")
         .toString();

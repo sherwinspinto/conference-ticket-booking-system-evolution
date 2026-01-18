@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.config;
+package com.sherwin.conference.bookingsystem.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

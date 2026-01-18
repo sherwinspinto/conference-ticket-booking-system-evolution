@@ -8,13 +8,13 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TalkControllerTest {
+class CreateTalkControllerTest {
   public static final String BASE_URL = "http://localhost:%d/api";
   private final TestRestTemplate testRestTemplate;
   @LocalServerPort int localServerPort;
 
   @Autowired
-  public TalkControllerTest(TestRestTemplate testRestTemplate) {
+  public CreateTalkControllerTest(TestRestTemplate testRestTemplate) {
     this.testRestTemplate = testRestTemplate;
   }
 
