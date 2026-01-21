@@ -5,17 +5,17 @@ import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.UpdateTalk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.spi.UpdateTalkDbPort;
 import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
-import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository2;
+import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UpdateTalkJPA implements UpdateTalkDbPort {
-  private final TalkRepository2 talkRepository;
+  private final TalkRepository talkRepository;
 
   @Autowired
-  public UpdateTalkJPA(TalkRepository2 talkRepository) {
+  public UpdateTalkJPA(TalkRepository talkRepository) {
     this.talkRepository = talkRepository;
   }
 

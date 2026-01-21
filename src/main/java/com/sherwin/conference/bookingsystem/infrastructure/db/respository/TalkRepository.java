@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-public interface TalkRepository2 extends JpaRepository<TalkEntity, Long> {
+public interface TalkRepository extends JpaRepository<TalkEntity, Long> {
   String INCREMENT_RESERVED_SEAT_COUNT_SQL = """
 UPDATE TALKS
   SET reserved_seats = reserved_seats + 1

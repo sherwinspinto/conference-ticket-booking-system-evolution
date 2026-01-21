@@ -4,22 +4,22 @@ import com.sherwin.conference.bookingsystem.domain.feature.model.Id.TalkId;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.spi.GetTalkDbPort;
 import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
-import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository2;
+import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GetTalkJPA implements GetTalkDbPort {
-  private final TalkRepository2 talkRepository2;
+  private final TalkRepository talkRepository;
 
   @Autowired
-  public GetTalkJPA(TalkRepository2 talkRepository2) {
-    this.talkRepository2 = talkRepository2;
+  public GetTalkJPA(TalkRepository talkRepository) {
+    this.talkRepository = talkRepository;
   }
 
   @Override
   public Optional<Talk> getTalkById(TalkId talkId) {
-    return talkRepository2.findById(talkId.value()).map(TalkEntity::toDomain);
+    return talkRepository.findById(talkId.value()).map(TalkEntity::toDomain);
   }
 }
