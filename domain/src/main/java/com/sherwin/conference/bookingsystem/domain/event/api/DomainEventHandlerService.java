@@ -19,8 +19,8 @@ public class DomainEventHandlerService
   @Override
   public void handle(ConferenceApplicationEvent event) {
     switch (event) {
-      case ConferenceApplicationEvent.ReservedTicket(Long ticketId, LocalDateTime reservedAt) ->
-          reservedTicketEventHandler.handleReservedSeatEvent(new TicketId(ticketId));
+      case ConferenceApplicationEvent.ReservedTicket reservedTicket ->
+          reservedTicketEventHandler.handleReservedSeatEvent(reservedTicket);
       case ConferenceApplicationEvent.ReservationExpired expiredTicket -> {
         IO.println(event);
       }

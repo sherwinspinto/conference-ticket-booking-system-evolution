@@ -9,7 +9,9 @@ import com.sherwin.conference.bookingsystem.domain.feature.ticket.api.port.Reser
 import com.sherwin.conference.bookingsystem.domain.feature.ticket.api.port.SetTicketStatusToExpiredPort;
 import com.sherwin.conference.bookingsystem.domain.feature.ticket.model.SetTicketStatusToExpired;
 import com.sherwin.conference.bookingsystem.domain.feature.ticket.model.Ticket;
+import com.sherwin.conference.bookingsystem.domain.feature.ticket.model.TicketFieldType;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -26,8 +28,8 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
   private final SetTicketStatusToExpiredPort setTicketStatusToExpiredPort;
   private final DomainEventPublisherPort<ConferenceApplicationEvent> eventPublisherPort;
   private final Clock clock;
-
-  private static final long EXPIRY_DURATION_MINUTES = 1;
+  private static final int ONE_MINUTE_IN_SECONDS = 60;
+  private static final Duration EXPIRY_DURATION_SECONDS = Duration.ofSeconds(2 * ONE_MINUTE_IN_SECONDS);
 
   public ReservedTicketEventHandler(
       ScheduledExecutorService scheduledExecutorService,
@@ -43,16 +45,18 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
   }
 
   @Override
-  public HandlerResult handleReservedSeatEvent(TicketId ticketId) {
-    scheduledExecutorService.schedule(new ScheduledTask(
-            ticketId,
+  public HandlerResult handleReservedSeatEvent(ConferenceApplicationEvent.ReservedTicket event) {
+    scheduledExecutorService.schedule(
+        new ScheduledTask(
+            new TicketId(event.ticketId()),
             virtualThreadExecutor,
             setTicketStatusToExpiredPort,
             eventPublisherPort,
             clock),
-        EXPIRY_DURATION_MINUTES,
-        TimeUnit.MINUTES);
-    return HandlerResult.success("Seat reserved successfully for Ticket ID: " + ticketId);
+        calculateEventJitterInSeconds(
+            new TicketFieldType.ReservedAt(event.reservedAt()), EXPIRY_DURATION_SECONDS, clock),
+        TimeUnit.SECONDS);
+    return HandlerResult.success("Seat reserved successfully for Ticket ID: " + event.ticketId());
   }
 
   static class ScheduledTask implements Runnable {
@@ -78,7 +82,7 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
     @Override
     public void run() {
       executorService.submit(
-        new ExpireTicketTask(ticketId, setTicketStatusToExpiredPort, eventPublisherPort, clock));
+          new ExpireTicketTask(ticketId, setTicketStatusToExpiredPort, eventPublisherPort, clock));
     }
   }
 
@@ -110,7 +114,8 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
           .ifPresentOrElse(
               event -> {
                 eventPublisherPort.publish(event);
-                LOGGER.info("Successfully published reservation expired event for ticket: " + ticketId);
+                LOGGER.info(
+                    "Successfully published reservation expired event for ticket: " + ticketId);
               },
               () -> LOGGER.warning("Ticket not found, cannot expire: " + ticketId));
     }
@@ -121,5 +126,15 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
           new ConferenceApplicationEvent.ReservationExpired(
               ticket.ticketId().value(), LocalDateTime.now(clock));
     }
+  }
+
+  long calculateEventJitterInSeconds(
+      TicketFieldType.ReservedAt reservedAt, Duration delay, Clock clock) {
+    // Calculate duration since reservation in minutes
+    LocalDateTime now = LocalDateTime.now(clock);
+    Duration jitterDuration = Duration.between(reservedAt.value(), now);
+    if (jitterDuration.isNegative() || jitterDuration.isZero()) return Duration.ZERO.toMinutes();
+    IO.println("Delay after applying jitter: " + delay.minus(jitterDuration).toSeconds());
+    return delay.minus(jitterDuration).toSeconds();
   }
 }
