@@ -11,7 +11,7 @@
 
 # Output directory
 /out/
-/target/ # For Maven/Gradle projects
+target/ # For Maven/Gradle projects
 
 # IntelliJ IDEA project files
 .idea/
@@ -31,7 +31,7 @@
 /bin/
 
 # Maven-specific files
-/target/
+target/
 pom.xml.tag
 pom.xml.next
 pom.xml.bak
