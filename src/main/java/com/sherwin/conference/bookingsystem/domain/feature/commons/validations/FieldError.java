@@ -1,18 +1,22 @@
 package com.sherwin.conference.bookingsystem.domain.feature.commons.validations;
 
+import static com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.*;
+
 public sealed interface FieldError {
   sealed interface Errors extends FieldError {
 
-    record NullObjectError(ErrorParams.FieldName fieldName) implements Errors {}
+    record NullObjectError(FieldName fieldName) implements Errors {}
 
-    record EmptyStringError(ErrorParams.FieldName fieldName) implements Errors {}
+    record EmptyStringError(FieldName fieldName) implements Errors {}
 
     record OutOfRangeError<T>(
-        ErrorParams.FieldName fieldName,
+        FieldName fieldName,
         ErrorParams.FieldValue<T> fieldValue,
         ErrorParams.Param<T> minParam,
         ErrorParams.Param<T> maxParam)
         implements Errors {}
+
+    record InvalidEmailError(FieldName fieldName) implements Errors {}
   }
 
   sealed interface ErrorParams extends FieldError {

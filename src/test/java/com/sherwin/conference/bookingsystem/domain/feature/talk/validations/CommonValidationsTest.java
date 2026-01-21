@@ -1,5 +1,6 @@
 package com.sherwin.conference.bookingsystem.domain.feature.talk.validations;
 
+import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.CommonValidations;
 import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError;
 import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.FieldName;
 import com.sherwin.conference.bookingsystem.domain.feature.commons.validations.FieldError.ErrorParams.FieldValue;
