@@ -4,6 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <groupId>com.sherwin.conference</groupId>
+  <artifactId>conference-ticket-booking-evolution</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Conference Ticket Booking Evolution</name>
+  <description>From monolith pain → rich domain → reactive mastery</description>
+  <packaging>pom</packaging>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -11,71 +18,18 @@
     <relativePath/>
   </parent>
 
-  <groupId>com.sherwin.conference</groupId>
-  <artifactId>conference-ticket-booking-evolution</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Conference Ticket Booking Evolution</name>
-  <description>From monolith pain → rich domain → reactive mastery</description>
+  <modules>
+    <module>domain</module>
+    <module>infrastructure</module>
+    <module>launcher</module>
+  </modules>
 
   <properties>
       <java.version>25</java.version>
       <maven.compiler.release>25</maven.compiler.release>
   </properties>
 
-  <dependencies>
-    <!-- Core stack -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.retry</groupId>
-      <artifactId>spring-retry</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-aspects</artifactId>
-    </dependency>
 
-
-    <!-- Dev & testing -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-<!--      <optional>true</optional>-->
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Will be needed very soon for concurrency hammer -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-testcontainers</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.testcontainers</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
