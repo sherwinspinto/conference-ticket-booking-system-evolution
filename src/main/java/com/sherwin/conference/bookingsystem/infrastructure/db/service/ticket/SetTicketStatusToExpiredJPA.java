@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.infrastructure.db.ticket;
+package com.sherwin.conference.bookingsystem.infrastructure.db.service.ticket;
 
 import com.sherwin.conference.bookingsystem.domain.feature.ticket.model.SetTicketStatusToExpired;
 import com.sherwin.conference.bookingsystem.domain.feature.ticket.model.Ticket;

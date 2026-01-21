@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.infrastructure.event;
+package com.sherwin.conference.bookingsystem.infrastructure.db.service.event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

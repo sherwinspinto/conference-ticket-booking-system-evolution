@@ -7,7 +7,7 @@ import com.sherwin.conference.bookingsystem.domain.event.model.EventAggregate;
 import com.sherwin.conference.bookingsystem.domain.event.model.EventCommand;
 import com.sherwin.conference.bookingsystem.domain.feature.model.Id.AggregateId;
 import com.sherwin.conference.bookingsystem.domain.feature.model.Id.EventId;
-import com.sherwin.conference.bookingsystem.infrastructure.event.dto.Event;
+import com.sherwin.conference.bookingsystem.infrastructure.db.service.event.dto.Event;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

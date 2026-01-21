@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.infrastructure.db.talk;
+package com.sherwin.conference.bookingsystem.infrastructure.db.service.talk;
 
 import com.sherwin.conference.bookingsystem.domain.feature.model.PageRequest;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;

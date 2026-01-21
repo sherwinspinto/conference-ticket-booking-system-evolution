@@ -1,4 +1,4 @@
-package com.sherwin.conference.bookingsystem.infrastructure.event.dto;
+package com.sherwin.conference.bookingsystem.infrastructure.db.service.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
