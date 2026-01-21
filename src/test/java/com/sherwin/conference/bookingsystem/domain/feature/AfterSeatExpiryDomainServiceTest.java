@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatReserved;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatExpired;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservedTicket;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservationExpired;
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,12 +33,12 @@ class AfterSeatExpiryDomainServiceTest {
   public void testAfterSeatExpiryEventReceived() throws Exception {
     Long ticketId = 0L;
     LocalDateTime reservedAt = LocalDateTime.now();
-    SeatReserved seatReserved = new SeatReserved(ticketId, reservedAt);
-    ArgumentCaptor<SeatExpired> seatExpiredArgumentCaptor = ArgumentCaptor.forClass(SeatExpired.class);
+    ReservedTicket reservedTicket = new ReservedTicket(ticketId, reservedAt);
+    ArgumentCaptor<ReservationExpired> seatExpiredArgumentCaptor = ArgumentCaptor.forClass(ReservationExpired.class);
     ArgumentCaptor<Runnable> schedulerThreadJob = ArgumentCaptor.forClass(Runnable.class);
     ArgumentCaptor<Callable<Long>> virtualThreadJob = ArgumentCaptor.forClass(Callable.class);
 
-    seatExpiryDomainService.expireSeat(seatReserved);
+    seatExpiryDomainService.expireSeat(reservedTicket);
 
     verify(taskScheduler).schedule(schedulerThreadJob.capture(), anyLong(), any());
 
@@ -50,6 +50,6 @@ class AfterSeatExpiryDomainServiceTest {
 
     verify(afterSeatExpiryService).handleSeatExpiryEvent(seatExpiredArgumentCaptor.capture());
 
-    assertInstanceOf(SeatExpired.class, seatExpiredArgumentCaptor.getValue());
+    assertInstanceOf(ReservationExpired.class, seatExpiredArgumentCaptor.getValue());
   }
 }

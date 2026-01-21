@@ -5,10 +5,10 @@ import static org.mockito.Mockito.verify;
 
 import com.sherwin.conference.bookingsystem.domain.ReservationResult;
 import com.sherwin.conference.bookingsystem.domain.Talk;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatReserved;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservedTicket;
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
-import com.sherwin.conference.bookingsystem.entity.TicketEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.ticket.TicketEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.repository.TicketRepository;
 import com.sherwin.conference.bookingsystem.infrastructure.service.TalkService;
 import com.sherwin.conference.bookingsystem.infrastructure.service.TicketService;
@@ -51,12 +51,12 @@ public class SeatExpiryDomainServiceTest {
   void testScheduleSeatExpiry() throws Exception {
     long ticketId = 0L;
     LocalDateTime reservedAt = LocalDateTime.now();
-    SeatReserved seatReserved = new SeatReserved(ticketId, reservedAt);
+    ReservedTicket reservedTicket = new ReservedTicket(ticketId, reservedAt);
 
     ArgumentCaptor<Runnable> virtualThreadJobCaptor = ArgumentCaptor.forClass(Runnable.class);
     ArgumentCaptor<Callable<Long>> virtualThreadCallable = ArgumentCaptor.forClass(Callable.class);
 
-    seatExpiryDomainService.expireSeat(seatReserved);
+    seatExpiryDomainService.expireSeat(reservedTicket);
 
     verify(executorService).schedule(virtualThreadJobCaptor.capture(), anyLong(), any());
 
@@ -103,13 +103,13 @@ public class SeatExpiryDomainServiceTest {
     verify(virtualThreadExecutorService).submit(virtualThreadCallable.capture());
     ConferenceApplicationEvent conferenceApplicationEvent = seatReservedArgumentCaptor.getValue();
     switch (conferenceApplicationEvent) {
-      case SeatReserved seatReserved -> {
+      case ReservedTicket reservedTicket -> {
         virtualThreadCallable.getValue().call();
-        TicketEntity ticket = ticketRepository.findById(seatReserved.ticketId()).orElseThrow();
+        TicketEntity ticket = ticketRepository.findById(reservedTicket.ticketId()).orElseThrow();
         Assertions.assertEquals(
             new ReservationResult.Expired().toString(), ticket.getStatus().toString());
       }
-      case ConferenceApplicationEvent.SeatExpired _ -> IO.println("Nothing");
+      case ConferenceApplicationEvent.ReservationExpired _ -> IO.println("Nothing");
     }
   }
 }

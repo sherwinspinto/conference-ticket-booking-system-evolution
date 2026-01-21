@@ -1,9 +1,8 @@
 package com.sherwin.conference.bookingsystem.domain.feature;
 
 import com.sherwin.conference.bookingsystem.domain.DomainService;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatReserved;
-import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
-import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservedTicket;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.ExecutorService;
@@ -30,25 +29,25 @@ public class SeatExpiryDomainService {
     this.seatExpiryService = seatExpiryService;
   }
 
-  public boolean expireSeat(SeatReserved seatReserved) {
+  public boolean expireSeat(ReservedTicket reservedTicket) {
     long expireAfter = 1;
     TimeUnit expireAfterTimeUnit = TimeUnit.MINUTES;
     Duration expireAfterDuration = Duration.of(expireAfter, expireAfterTimeUnit.toChronoUnit());
 
     long delay =
         calculateDelayForSeatExpiryScheduledJobInMillis(
-            seatReserved.reservedAt(), expireAfterDuration, LocalDateTime.now());
-    return expireSeat(seatReserved, delay, TimeUnit.MILLISECONDS);
+            reservedTicket.reservedAt(), expireAfterDuration, LocalDateTime.now());
+    return expireSeat(reservedTicket, delay, TimeUnit.MILLISECONDS);
   }
 
-  public boolean expireSeat(SeatReserved seatReserved, long delay, TimeUnit timeUnit) {
+  public boolean expireSeat(ReservedTicket reservedTicket, long delay, TimeUnit timeUnit) {
     taskScheduler.schedule(
-        () -> updateStatusToExpiredInThread(seatReserved.ticketId()),
+        () -> updateStatusToExpiredInThread(reservedTicket.ticketId()),
         delay,
         timeUnit);
     LOGGER.info(
         "Scheduled Expiry Job for ticket: {} ----- with Delay: {} ----- TimeUnit: {} ",
-        seatReserved.ticketId(),
+        reservedTicket.ticketId(),
         delay,
         timeUnit.name());
     return Boolean.TRUE;

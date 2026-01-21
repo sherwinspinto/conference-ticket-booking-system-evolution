@@ -3,7 +3,7 @@ package com.sherwin.conference.bookingsystem.infrastructure.db.talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.AddTalk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.spi.AddTalkDbPort;
-import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,6 @@ public class AddTalkJPA implements AddTalkDbPort {
 
   @Override
   public Talk addTalk(AddTalk addTalk) {
-    return TalkEntity.to(talkRepository2.save(TalkEntity.from(addTalk)));
+    return TalkEntity.toDomain(talkRepository2.save(TalkEntity.from(addTalk)));
   }
 }

@@ -1,9 +1,9 @@
 package com.sherwin.conference.bookingsystem.domain.feature;
 
 import com.sherwin.conference.bookingsystem.domain.DomainService;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatExpired;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatReserved;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservationExpired;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservedTicket;
 
 @DomainService
 public class DomainEventHandler implements EventHandler {
@@ -19,8 +19,8 @@ public class DomainEventHandler implements EventHandler {
   @Override
   public boolean handleEvent(ConferenceApplicationEvent event) {
     return switch (event) {
-      case SeatReserved seatReserved -> seatExpiryService.expireSeat(seatReserved);
-      case SeatExpired seatExpired -> afterSeatExpiryService.handleSeatExpiryEvent(seatExpired);
+      case ReservedTicket reservedTicket -> seatExpiryService.expireSeat(reservedTicket);
+      case ReservationExpired reservationExpired -> afterSeatExpiryService.handleSeatExpiryEvent(reservationExpired);
     };
   }
 }

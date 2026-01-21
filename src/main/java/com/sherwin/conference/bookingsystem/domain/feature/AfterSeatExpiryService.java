@@ -1,7 +1,7 @@
 package com.sherwin.conference.bookingsystem.domain.feature;
 
 import com.sherwin.conference.bookingsystem.domain.DomainService;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent.SeatExpired;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent.ReservationExpired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 public class AfterSeatExpiryService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AfterSeatExpiryService.class);
 
-  public boolean handleSeatExpiryEvent(SeatExpired seatExpired) {
+  public boolean handleSeatExpiryEvent(ReservationExpired reservationExpired) {
     LOGGER.info(
         "Seat with ticketId: {} expired successfully at {}",
-        seatExpired.ticketId(),
-        seatExpired.expiredAt());
+        reservationExpired.ticketId(),
+        reservationExpired.expiredAt());
     return Boolean.TRUE;
   }
 }

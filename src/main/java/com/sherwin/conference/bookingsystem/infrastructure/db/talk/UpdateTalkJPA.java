@@ -4,7 +4,7 @@ import com.sherwin.conference.bookingsystem.domain.feature.model.Id.TalkId;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.UpdateTalk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.spi.UpdateTalkDbPort;
-import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,6 @@ public class UpdateTalkJPA implements UpdateTalkDbPort {
 
     TalkEntity updatedEntity = TalkEntity.from(talk, existingTalkEntity.getReservedSeats());
 
-    return TalkEntity.to(talkRepository.save(updatedEntity));
+    return TalkEntity.toDomain(talkRepository.save(updatedEntity));
   }
 }

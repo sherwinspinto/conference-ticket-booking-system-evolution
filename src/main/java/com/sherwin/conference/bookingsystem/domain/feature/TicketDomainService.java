@@ -4,7 +4,7 @@ import com.sherwin.conference.bookingsystem.domain.DomainService;
 import com.sherwin.conference.bookingsystem.domain.ReservationResult;
 import com.sherwin.conference.bookingsystem.domain.Talk;
 import com.sherwin.conference.bookingsystem.domain.Ticket;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent;
 import com.sherwin.conference.bookingsystem.domain.spi.ConfirmPaymentAction;
 import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
 import com.sherwin.conference.bookingsystem.domain.spi.ReserveTicketAction;
@@ -54,7 +54,7 @@ public class TicketDomainService {
     Ticket savedTicket = reserveTicketAction.saveTicket(ticket);
 
     eventPublisher.publish(
-        new ConferenceApplicationEvent.SeatReserved(savedTicket.id(), savedTicket.reservedAt()),
+        new ConferenceApplicationEvent.ReservedTicket(savedTicket.id(), savedTicket.reservedAt()),
         Boolean.TRUE);
     return "Reserved!";
   }

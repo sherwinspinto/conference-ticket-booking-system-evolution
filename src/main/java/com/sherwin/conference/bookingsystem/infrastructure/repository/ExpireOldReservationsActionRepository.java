@@ -2,16 +2,14 @@ package com.sherwin.conference.bookingsystem.infrastructure.repository;
 
 import com.sherwin.conference.bookingsystem.domain.ReservationResult;
 import com.sherwin.conference.bookingsystem.domain.Ticket;
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
 import com.sherwin.conference.bookingsystem.domain.mapper.Mapper;
 import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
-import java.time.LocalDateTime;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ExpireOldReservationsActionRepository implements ExpireOldReservationsAction {

@@ -1,6 +1,6 @@
 package com.sherwin.conference.bookingsystem.infrastructure.service;
 
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent;
 import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

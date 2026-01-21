@@ -3,8 +3,8 @@ package com.sherwin.conference.bookingsystem.domain.mapper;
 import com.sherwin.conference.bookingsystem.domain.Talk;
 import com.sherwin.conference.bookingsystem.domain.Ticket;
 import com.sherwin.conference.bookingsystem.entity.ReservationResult;
-import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
-import com.sherwin.conference.bookingsystem.entity.TicketEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.ticket.TicketEntity;
 
 public class Mapper {
   public static TicketEntity ticketDomainToEntityMapper(Ticket ticket) {

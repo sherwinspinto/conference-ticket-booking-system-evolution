@@ -1,13 +1,11 @@
 package com.sherwin.conference.bookingsystem.infrastructure.db.talk;
 
 import com.sherwin.conference.bookingsystem.domain.feature.model.PageRequest;
-import com.sherwin.conference.bookingsystem.domain.feature.talk.api.port.GetTalksPort;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 import com.sherwin.conference.bookingsystem.domain.feature.talk.spi.GetTalksDbPort;
-import com.sherwin.conference.bookingsystem.infrastructure.db.entity.TalkEntity;
+import com.sherwin.conference.bookingsystem.infrastructure.db.entity.talk.TalkEntity;
 import com.sherwin.conference.bookingsystem.infrastructure.db.respository.TalkRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +25,6 @@ public class GetAllTalksJPA implements GetTalksDbPort {
       domainRequest.page(),
       domainRequest.size()
     );
-    return talkRepository2.findAll(springPageable).map(TalkEntity::to).toList();
+    return talkRepository2.findAll(springPageable).map(TalkEntity::toDomain).toList();
   }
 }

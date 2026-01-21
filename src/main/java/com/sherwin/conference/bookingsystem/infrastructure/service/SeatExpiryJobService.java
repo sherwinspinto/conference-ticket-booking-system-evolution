@@ -1,6 +1,6 @@
 package com.sherwin.conference.bookingsystem.infrastructure.service;
 
-import com.sherwin.conference.bookingsystem.domain.event.ConferenceApplicationEvent;
+import com.sherwin.conference.bookingsystem.domain.event.model.ConferenceApplicationEvent;
 import com.sherwin.conference.bookingsystem.domain.spi.EventPublisher;
 import com.sherwin.conference.bookingsystem.domain.spi.ExpireOldReservationsAction;
 import com.sherwin.conference.bookingsystem.domain.spi.SeatExpiryService;
@@ -24,7 +24,7 @@ public class SeatExpiryJobService implements SeatExpiryService {
   public boolean expireSeat(Long ticketId) {
     expireOldReservationsAction.updateTicketStatusToExpired(ticketId);
     eventPublisher.publish(
-      new ConferenceApplicationEvent.SeatExpired(ticketId, LocalDateTime.now()), Boolean.TRUE);
+      new ConferenceApplicationEvent.ReservationExpired(ticketId, LocalDateTime.now()), Boolean.TRUE);
     return Boolean.TRUE;
   }
 }
