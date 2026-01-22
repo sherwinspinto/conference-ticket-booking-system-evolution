@@ -134,7 +134,6 @@ public class ReservedTicketEventHandler implements ReservedSeatEventHandlerPort 
     LocalDateTime now = LocalDateTime.now(clock);
     Duration jitterDuration = Duration.between(reservedAt.value(), now);
     if (jitterDuration.isNegative() || jitterDuration.isZero()) return Duration.ZERO.toMinutes();
-    IO.println("Delay after applying jitter: " + delay.minus(jitterDuration).toSeconds());
     return delay.minus(jitterDuration).toSeconds();
   }
 }
