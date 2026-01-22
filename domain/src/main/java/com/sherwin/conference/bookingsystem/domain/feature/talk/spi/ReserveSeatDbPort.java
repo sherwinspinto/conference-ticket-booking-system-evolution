@@ -1,7 +1,7 @@
 package com.sherwin.conference.bookingsystem.domain.feature.talk.spi;
 
-import com.sherwin.conference.bookingsystem.domain.feature.model.Id.TalkId;
+import com.sherwin.conference.bookingsystem.domain.feature.talk.model.Talk;
 
 public interface ReserveSeatDbPort {
-  boolean reserveSeat(TalkId talkId);
+  Talk reserveSeat(Talk talk);
 }

@@ -102,12 +102,6 @@ public class TalkEntity {
     this.version = version;
   }
 
-  public boolean tryReserveSeat() {
-    if (reservedSeats >= totalSeats) return Boolean.FALSE;
-    reservedSeats++;
-    return Boolean.TRUE;
-  }
-
   public Long getId() {
     return id;
   }
@@ -144,6 +138,7 @@ public class TalkEntity {
                 new StartTime(talkEntity.talkTimeJson.startTime()),
                 new EndTime(talkEntity.talkTimeJson.endTime())),
             talkEntity.totalSeats,
+            talkEntity.reservedSeats,
             Version.of(talkEntity.version));
 
     return switch (talkCreationResult) {
@@ -174,5 +169,16 @@ public class TalkEntity {
         updateTalk.seatCount().value(),
         reservedSeats,
         updateTalk.version().value());
+  }
+
+  public static TalkEntity from(Talk talk) {
+    return new TalkEntity(
+        talk.id().value(),
+        talk.talkName().value(),
+        new SpeakerJson(talk.speaker().firstName().value(), talk.speaker().lastName().value()),
+        new TalkTimeJson(talk.talkTime().startTime().value(), talk.talkTime().endTime().value()),
+        talk.seatCount().value(),
+        talk.reservedSeats().value(),
+        talk.version().value());
   }
 }
